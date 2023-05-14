@@ -2,10 +2,10 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./meltdown-mitigation",
-        "-p",
-        "*_test.py"
+        "*_test.py",
+        "-t",
+        "C:\\Users\\Sigersdal\\Exercism\\python"
     ],
-    "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false
 }
