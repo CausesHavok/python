@@ -40,6 +40,4 @@ def is_valid_triangle(sides):
     a) for each side X the sum of the other two sides Y and Z is greater or equal ie X<=Y+Z or 2X<=X+Y+Z. It is sufficient to check for the largest side.
     b) no sides are zero
     """
-    if sum(sides) >= 2*max(sides) and not 0 in sides:
-        return True
-    return False
+    return sum(sides) >= 2*max(sides) and not 0 in sides
