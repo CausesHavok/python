@@ -8,10 +8,10 @@ FOURS = "FOURS"
 FIVES = "FIVES"
 SIXES = "SIXES"
 FULL_HOUSE = "FULL_HOUSE"
-FOUR_OF_A_KIND = None
-LITTLE_STRAIGHT = None
-BIG_STRAIGHT = None
-CHOICE = None
+FOUR_OF_A_KIND = "FOUR_OF_A_KIND"
+LITTLE_STRAIGHT = "LITTLE_STRAIGHT"
+BIG_STRAIGHT = "BIG_STRAIGHT"
+CHOICE = "CHOICE"
 
 
 def score(dice, category):
@@ -33,7 +33,20 @@ def score(dice, category):
             return 6*dice.count(6)
         case "FULL_HOUSE":
             return sum(dice) if len(set(dice))==2 and dice.count(dice[0])>=2 else 0
-        case _:
-            return 1
+        case "FOUR_OF_A_KIND":
+            unique_dice = set(dice)
+            if len(unique_dice)!=2:
+                return 0
+            if dice(dice.count(dice[0])) == 4:
+                return 4 * dice[0]
+            if dice(dice.count(dice[0])) == 1:
+                return 4 * dice[1]
+            return 0
+        case "LITTLE_STRAIGHT":
+            return len(set(dice))==5 and not 6 in dice
+        case "BIG_STRAIGHT":
+            return len(set(dice))==5 and not 1 in dice
+        case _: # CHOICE
+            return sum(dice)
     
     return 0
