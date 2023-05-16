@@ -12,16 +12,17 @@ def response(hey_bob:str):
     messages that are yelled -> "Whoa, chill out!"
     anything else -> "Whatever."
     """
-    is_question = hey_bob.endswith('?')
-    is_yell = hey_bob.upper == hey_bob
+    trimmed_hey_bob = hey_bob.strip()
+    is_question = trimmed_hey_bob.endswith('?')
+    is_yell = trimmed_hey_bob.isupper()
     
-    if hey_bob.isspace:
-        "Fine. Be that way!"
+    if not trimmed_hey_bob:
+        return "Fine. Be that way!"
     if is_question and is_yell:
         return "Calm down, I know what I'm doing!"
     if is_question:
         return "Sure."
     if is_yell:
-        "Whoa, chill out!"
+        return "Whoa, chill out!"
 
     return "Whatever."

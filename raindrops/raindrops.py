@@ -11,7 +11,7 @@ def convert(number):
     if the number has a factor of 7 then "plong" is appened
     if the number has none of the above return the number as a string
     """
-    raindrop_sound = "pling" if number % 3 == 0 else ""
-    raindrop_sound += "plang" if number % 5 == 0 else ""
-    raindrop_sound += "plong" if number % 7 == 0 else ""
-    return raindrop_sound if raindrop_sound else str(raindrop_sound)
+    raindrop_sound = "Pling" if number % 3 == 0 else ""
+    raindrop_sound += "Plang" if number % 5 == 0 else ""
+    raindrop_sound += "Plong" if number % 7 == 0 else ""
+    return raindrop_sound if raindrop_sound else str(number)
