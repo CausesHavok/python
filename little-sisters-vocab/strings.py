@@ -7,11 +7,10 @@ def add_prefix_un(word):
     :param word: str - containing the root word.
     :return: str - of root word prepended with 'un'.
     """
+    return "un" + word
 
-    pass
 
-
-def make_word_groups(vocab_words):
+def make_word_groups(vocab_words: list[str]):
     """Transform a list containing a prefix and words into a string with the prefix followed by the words with prefix prepended.
 
     :param vocab_words: list - of vocabulary words with prefix in first index.
@@ -25,8 +24,7 @@ def make_word_groups(vocab_words):
     For example: list('en', 'close', 'joy', 'lighten'),
     produces the following string: 'en :: enclose :: enjoy :: enlighten'.
     """
-
-    pass
+    return (" :: " + vocab_words[0]).join(vocab_words)
 
 
 def remove_suffix_ness(word):
