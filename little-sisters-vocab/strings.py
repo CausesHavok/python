@@ -37,8 +37,8 @@ def remove_suffix_ness(word:str):
     """
     
     nessless_word = word[:-4]
-    if nessless_word[-1] == 'i' and nessless_word[-2] in "bcdfghjklmnpqrstvwxz":
-        return nessless_word[:-1] + 'y'
+    if nessless_word[-1] == "i" and nessless_word[-2] in "bcdfghjklmnpqrstvwxz":
+        return nessless_word[:-1] + "y"
     
     return nessless_word
 
@@ -53,4 +53,4 @@ def adjective_to_verb(sentence:str, index:int):
     For example, ("It got dark as the sun set", 2) becomes "darken".
     """
 
-    return sentence.split()[index].strip('.')+"en"
+    return sentence.split()[index].strip(".")+"en"
