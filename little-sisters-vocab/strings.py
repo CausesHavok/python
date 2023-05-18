@@ -27,7 +27,7 @@ def make_word_groups(vocab_words: list[str]):
     return (" :: " + vocab_words[0]).join(vocab_words)
 
 
-def remove_suffix_ness(word):
+def remove_suffix_ness(word:str):
     """Remove the suffix from the word while keeping spelling in mind.
 
     :param word: str - of word to remove suffix from.
@@ -35,11 +35,15 @@ def remove_suffix_ness(word):
 
     For example: "heaviness" becomes "heavy", but "sadness" becomes "sad".
     """
+    
+    nessless_word = word[:-4]
+    if nessless_word[-1] == 'i' and nessless_word[-2] in "bcdfghjklmnpqrstvwxz":
+        return nessless_word[:-1] + 'y'
+    
+    return nessless_word
 
-    pass
 
-
-def adjective_to_verb(sentence, index):
+def adjective_to_verb(sentence:str, index:int):
     """Change the adjective within the sentence to a verb.
 
     :param sentence: str - that uses the word in sentence.
@@ -49,4 +53,4 @@ def adjective_to_verb(sentence, index):
     For example, ("It got dark as the sun set", 2) becomes "darken".
     """
 
-    pass
+    return sentence.split()[index].strip('.')+"en"
