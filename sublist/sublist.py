@@ -18,18 +18,38 @@ SUPERLIST = "SUPERLIST"
 EQUAL = "EQUAL"
 UNEQUAL = "UNEQUAL"
 
+def sublist(list_one: list[int], list_two: list[int]):
+    """ Determine if a given list is a sub-, super- or equivalent of another given list
 
-def sublist(list_one: list[str], list_two: list[str]):
-    
+    :param list_one list[int]: List of integerers to be compared
+    :param list_two list[int]: List of integerers to be compared with
+    :return sublist category: The category
+
+    Determines if list_one is a sublist, superlist or an equivalent list of list_two.
+    """
     if list_one == list_two:
         return EQUAL
     
-    if all(item in list_two for item in list_one):
-        return SUBLIST
+    if len(list_one) < len(list_two):
+        return SUBLIST if is_sublist(list_one,list_two) else UNEQUAL
     
-    if all(item in list_one for item in list_two):
-        return SUPERLIST
+    if len(list_one) > len(list_two):
+        return SUPERLIST if is_sublist(list_two,list_one) else UNEQUAL
 
     return UNEQUAL
 
 
+def is_sublist(short_list: list[int], long_list: list[int]):
+    """ Determine short_list is a sublist of long_list
+
+    :param short_list list[int]: List of integerers to be compared
+    :param long_list list[int]: List of integerers to be compared with
+    :return boolean: Is short_list a sublist of long_list
+
+    Determine short_list is a sublist of long_list
+    """
+    short_list_length = len(short_list)
+    for long_counter in range(len(long_list) - short_list_length + 1):
+        if long_list[long_counter:long_counter + short_list_length] == short_list:
+            return True
+    return False
