@@ -1,16 +1,47 @@
-"""Translate a word into pig-latin"""
+import re
+"""Functions for translating English into pig latin"""
 def translate(text:str):
-    """Translate a word into pig-latin
+    """Translate text into pig latin
+    
+    :param text str: Text
+    :return str: Text in pig latin
+    Translates text into pig latin following rules found on https://exercism.org/tracks/python/exercises/pig-latin
+    """
+    pig_latin_sentence = ""
+    for word in text.split():
+        pig_latin_sentence += translate_word(word) + " "
+
+    return pig_latin_sentence[:-1]
+
+
+def translate_word(text):
+    """Translate a single word into pig latin
     
     :param text str: A word
-    :return str: A pig-latin translation of the input word
-
-    Translate a word into pig-latin based on the following rules
-    Rule 1: If a word begins with a vowel sound, add an "ay" sound to the end of the word. Please note that "xr" and "yt" at the beginning of a word make vowel sounds (e.g. "xray" -> "xrayay", "yttria" -> "yttriaay").
-    Rule 2: If a word begins with a consonant sound, move it to the end of the word and then add an "ay" sound to the end of the word. Consonant sounds can be made up of multiple consonants, a.k.a. a consonant cluster (e.g. "chair" -> "airchay").
-    Rule 3: If a word starts with a consonant sound followed by "qu", move it to the end of the word, and then add an "ay" sound to the end of the word (e.g. "square" -> "aresquay").
-    Rule 4: If a word contains a "y" after a consonant cluster or as the second letter in a two letter word it makes a vowel sound (e.g. "rhythm" -> "ythmrhay", "my" -> "ymay").
+    :return str: A word in pig latin
+    Translates a word into pig latin following rules found on https://exercism.org/tracks/python/exercises/pig-latin
     """
 
+    #Rule 1
+    if text[0] in ['a','e','i','o','u'] or text.startswith("xr") or text.startswith("yt"):
+        return text+"ay"
+
+    #Rule 3
+    matchvar= re.match("[bcdfghjklmnpqrstvwxz]?qu",text)
+    if matchvar:
+        lengthvar = len(matchvar.group(0))
+        return text[lengthvar:] + text[:lengthvar] + "ay"
+
+    #Rule 4
+    matchvar= re.match("[bcdfghjklmnpqrstvwxz]+y",text)
+    if matchvar:
+        lengthvar = len(matchvar.group(0))
+        return text[lengthvar-1:] + text[:lengthvar-1] + "ay"
     
-    pass
+    #Rule 2
+    matchvar = re.match("y?[bcdfghjklmnpqrstvwxz]*",text) #relies on the fact that there must be a consonant or y
+    if matchvar:
+        lengthvar = len(matchvar.group(0))
+        return text[lengthvar:] + text[:lengthvar] + "ay"
+
+    return "rule5"
