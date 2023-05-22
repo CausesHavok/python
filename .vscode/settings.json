@@ -4,7 +4,7 @@
         "-s",
         "*_test.py",
         "-t",
-        "C:\\Users\\nynne\\Exercism\\python"
+        "C:\\Users\\magnussigersdal\\Exercism\\python"
     ],
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
