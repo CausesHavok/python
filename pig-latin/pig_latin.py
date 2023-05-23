@@ -18,35 +18,27 @@ def find_vowel(text:str):
     :param text str: Indput text
     :return int: index of the first lower case vowel in input text
     """
-    vowels_sounds = ("aeiouy")
-    index = 0
-    for char in text:
-        if char in vowels_sounds:
+    for index, char in enumerate(text):
+        if char in "aeiouy":
             return index
-        index += 1
 
 
 def translate_word(text:str):
     """Translate a single word into pig latin
     
-    :param text str: A word
+    :param text str: A word in english
     :return str: A word in pig latin
     Translates a word into pig latin following rules found on https://exercism.org/tracks/python/exercises/pig-latin
+    Functions works by determining the correct place to make a cut in the original word.
+    So that "word" becomes "ordway" by cutting "word" between index 0 and index 1
     """
-    consonant_sounds = ("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z")
-    vowels_sounds = ("a","e","i","o","u")
-
-    pig_latin = ""
     #Rule 1
-    if text.startswith(vowels_sounds) or text.startswith("xr") or text.startswith("yt"):
-        pig_latin = text
-
+    cut_index = 0
     #Rule 2-4
-    elif text.startswith(consonant_sounds):
-        first_vowel = find_vowel(text[1:]) + 1
-        if text[first_vowel-1] == "q" and text[first_vowel] == "u": # Rule 3
-            pig_latin = text[first_vowel+1:] + text[:first_vowel+1]
-        else: #rule 2 and 4
-            pig_latin = text[first_vowel:] + text[:first_vowel]
-
-    return pig_latin + "ay"
+    if not text.startswith(("a","e","i","o","u","xr","yt")):
+        cut_index = find_vowel(text[1:]) + 1
+     # Rule 3 (no words in english has [consonant]qu other than squ)
+    if text.startswith(("qu","squ")):
+        cut_index += 1
+    
+    return text[cut_index:] + text[:cut_index] + "ay"
