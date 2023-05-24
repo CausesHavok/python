@@ -5,11 +5,12 @@ def rebase(input_base:int, digits:list[int], output_base:int):
         raise ValueError("input base must be >= 2")
     if output_base < 2:
         raise ValueError("output base must be >= 2")
+    if set(digits) == {0} or digits == [] :
+        return [0]
     for digit in digits:
         if digit < 0 or digit >= input_base:
             raise ValueError("all digits must satisfy 0 <= d < input base")
-    if set(digits) == set([0]):
-        return 0
+    
 
     sum_base_10 = 0
     Number_digits = len(digits)
@@ -45,4 +46,4 @@ def rebase(input_base:int, digits:list[int], output_base:int):
     return formatted_output_digits
 
 
-rebase(19,[1,2,1,0,2,1],5)
+print(set([0,0,0,0,0]) == {0})
