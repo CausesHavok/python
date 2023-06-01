@@ -1,16 +1,24 @@
 import math
 
-
+"""Functions for determining the resistance of a tripple banded resistor"""
 def label(colors):
+    """Determine the resistor strength based on colors
+    
+    :param color: str - the colors of a triple banded on the resistor
+    :return str - the resistance of the resistor
+    """
 
-    resistance = (color_code(colors[0])*10 + color_code(colors[1]))*10**colors_code().index(colors[2])
+    resistance = (color_code(colors[0])*10 + color_code(colors[1]))*10**color_code(colors[2])
     if resistance == 0:
-        resistance = "0 "
-    elif math.log10(resistance)>=9:
+        return "0 ohms"
+
+    factor = math.log10(resistance)
+
+    if factor >= 9:
         resistance = str(resistance // 10**9) + " giga"
-    elif math.log10(resistance)>=6:
+    elif factor >= 6:
         resistance = str(resistance  // 10**6) + " mega"
-    elif math.log10(resistance)>=3:
+    elif factor >= 3:
         resistance = str(resistance  // 10**3) + " kilo"
     else:
         resistance = str(resistance) + " "

@@ -1,3 +1,4 @@
+"""Functions for determining the resistance of a single banded resistor"""
 def color_code(color: str):
     """Determine the resistor strength based on color
     
