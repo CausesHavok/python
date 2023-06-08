@@ -7,9 +7,9 @@ def is_paired(input_string: str):
 
     open_brackets = []
     for char in input_string:
-        if char in ("(", "{", "["):
+        if char in ("({["):
             open_brackets.append(char)
-        elif char in (")", "}", "]"):
+        elif char in (")}]"):
             if not open_brackets:
                 return False
             if open_brackets[-1] + char in ("()", "{}", "[]"):
@@ -18,4 +18,3 @@ def is_paired(input_string: str):
                 return False
             
     return open_brackets == []
-
