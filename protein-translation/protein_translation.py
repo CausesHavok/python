@@ -1,2 +1,6 @@
-def proteins(strand):
-    pass
+def proteins(strand: str):
+
+
+    
+
+    return ""
