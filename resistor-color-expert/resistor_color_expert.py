@@ -1,66 +1,64 @@
 import math
 
-"""Functions for determining the resistance of a tripple banded resistor"""
+"""Functions for determining the resistance of resistors up to and including 5 bands"""
 def resistor_label(colors: list[str]):
-    """Determine the resistor strength based on colors
+    """Determine the resistor strength based on colors works for upto 5 bands
     
-    :param color: str - the colors of a triple banded on the resistor
-    :return str - the resistance of the resistor
+    :param color: str - the colors of the bands on the resistor 
+    :return str - the resistance of the resistor and its tolerance
     """
 
-    "One band   - r=band1"
-    "Two band   - r=band1*10 + band2"
-    "three band - r=(band1*10+band2)*band3"
-    "four band  - r=(band1*10+band2)*band3 +- band4"
-    "five band  - r=(band1*100+band2*10+band3)*band4 +- band5"
-
-    print(colors)
     band_count = len(colors)
     multiplier = 0
     tolerance = ""
     if band_count > 3:
         tolerance = get_tolerance(colors.pop())
-        print(tolerance)
         band_count -= 1
 
     if band_count > 2:
-        multiplier = get_color_index(colors.pop()) - 1
-        print(multiplier)
-        band_count -= -1
+        multiplier = get_color_value(colors.pop())
+        band_count -= 1
 
     resistance = 0
     for index, color in enumerate(colors):
-        resistance += get_color_index(color) * 10 ** (band_count - index - 2)
-    
+        resistance += get_color_value(color) * 10 ** (band_count - index - 1)
     resistance = int(resistance*10**multiplier)
 
-    if resistance == 0:
-        return "0 ohms"
-    print(resistance)
-    factor = math.log10(resistance)
-
-    if factor >= 9:
-        resistance = str(resistance // 10**9) + " giga"
-    elif factor >= 6:
-        resistance = str(resistance  // 10**6) + " mega"
-    elif factor >= 3:
-        resistance = str(resistance  // 10**3) + " kilo"
-    else:
-        resistance = str(resistance) + " "
-    resistance += "ohms"
-    if tolerance != "":
-       resistance += " " + tolerance
-    print(resistance)
-    return resistance
+    message = resistance_to_string(resistance) + " " + tolerance
+    return message.strip()
 
 
-def get_color_index(color: str):
+def get_color_value(color: str):
     """Determine the resistor strength based on color
     
     :param color: str - the color of a band on the resistor
     :return str - the resistance of the band
     """
-    return colors().index(color)
+    colors = ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"]
+    return colors.index(color)
+
+
+def resistance_to_string(resistance: float):
+    """Convert a flat resistance value to a pretty string using prefix multipliers like kilo
+
+    :param resistance: int - the flat resistance of the resistor
+    :return str - the resistance written with a prefix multiplier
+    Example. Input = 3000 => output = 3 kiloohms
+    """
+    prefixe_multiplier = ""
+    if resistance >= 1000000000:
+        resistance = resistance / 1000000000
+        prefixe_multiplier = "giga"
+    elif resistance >= 1000000:
+        resistance = resistance / 1000000
+        prefixe_multiplier = "mega"
+    elif resistance >= 1000:
+        resistance = resistance / 1000
+        prefixe_multiplier = "kilo"
+    
+    if resistance == int(resistance):
+        resistance = int(resistance)
+    return str(resistance) + " " + prefixe_multiplier + "ohms"
 
 
 def get_tolerance(color: str):
@@ -69,29 +67,8 @@ def get_tolerance(color: str):
     :param color: str - the color of a band on the resistor
     :return str - the resistance of the band
     """
-    tolerance_colors = 
+    colors = ["grey", "violet", "blue", "green", "brown", "red", "gold", "silver"]
+    tolerances = ["±0.05%", "±0.1%", "±0.25%", "±0.5%", "±1%", "±2%", "±5%", "±10%"]
+    tolerance_dict = dict(zip(colors, tolerances))
 
-
-    tolerances = ["±0.05%",
-                  "±0.1%",
-                  "±0.25%",
-                  "±0.5%",
-                  "±1%",
-                  "±2%",
-                  "±5%",
-                  "±10%"]
-
-    return tolerances[get_color_index(color)]
-
-
-def colors():
-    """Gets the list of resistor colors
-    return: list[str] - the list of resistor colors
-    """
-    return ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"]
-
-
-
-resistor_label(["orange", "orange", "black", "red"])
-resistor_label(["orange", "orange"])
-resistor_label(["orange", "orange", "orange", "black", "orange"])
+    return tolerance_dict[color]
