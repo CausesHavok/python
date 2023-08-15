@@ -1,16 +1,5 @@
 def find_fewest_coins(coins: list[int], target: int):
-    print("target: " + str(target))
-    change = []
-    for coin in reversed(coins):
-        print(coin)
-        if coin == target:
-            target -= coin
-            change.append(coin)
-        if coin < target:
-            target -= coin
-            change.append(coin)
-            change.append(find_fewest_coins(coins, target))
-    return change
+    pass
 
 
 def recursion(coins: list[int], 
@@ -49,7 +38,3 @@ def recursion(coins: list[int],
         new_coins.remove(coin)
     print("change: " + str(change))
     return shortest_length
-
-
-# print(find_fewest_coins([1,2,4,5,10,15,20], 8))
-print(recursion([1,2,4,5,10,20], 19, 0, 99, []))
