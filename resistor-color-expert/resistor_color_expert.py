@@ -11,11 +11,11 @@ def resistor_label(colors: list[str]):
     band_count = len(colors)
     multiplier = 0
     tolerance = ""
-    if band_count > 3:
+    if band_count > 3: # Resistors with 4 or 5 bands have a tolerance band as the last band
         tolerance = get_tolerance(colors.pop())
         band_count -= 1
 
-    if band_count > 2:
+    if band_count > 2: # resistors with at least 3 bands have a multiplier band located last or if there is a tolerance band, second to last
         multiplier = get_color_value(colors.pop())
         band_count -= 1
 

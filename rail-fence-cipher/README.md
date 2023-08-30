@@ -52,7 +52,7 @@ W . . . E . . . C . . . R . . . L . . . T . . . E
 ```
 
 Leaving "AIVDEN" for the last row.
-
+ 
 ```text
 W . . . E . . . C . . . R . . . L . . . T . . . E
 . E . R . D . S . O . E . E . F . E . A . O . C .

@@ -1,66 +1,72 @@
 """ functions for determining the answer to a mathematical question formulated in plain english"""
+
+operator_dict = {
+    "multiplied by": "__mul__",
+    "divided by": "__truediv__",
+    "plus": "__add__",
+    "minus": "__sub__"
+}
+operators = operator_dict.values()
+
+
 def answer(question:str):
     """ Evaluate the result of a mathematical question formulated in plain english
     :param question: str - a question
     :return: float - the answer to the question
     The method works by 
-    !) Replacing plain english with operators
-    2) Trimming to contain what should be only values and operators, otherwise it is an unknown operations error
-    3) Looping through all the parts of the question and
-    3.1) The first and every other part should be a number, otherwise it is a syntax error
-    3.2) The sedond and every other part should be an operator, otherwise it is a syntax error
-    3.3) Performning the operations on the values
-    4) Finally we check to make sure we ended on a value, otherwise it is a syntax error
+    1) Cleaning up the question
+    2) Validate the question
+    3) Calculate the result
     """
-    #Replace words with operators
-    question = question.replace("multiplied by","*").replace("divided by","/").replace("plus", "+").replace("minus", "-")
-    #Discard 'what is' and '?'
-    parts = question.rstrip("?").split()[2:]
+    question = clean_question(question)
+    parts = question.split()
+    validate_question(parts)
+    return perform_calculations(parts)
 
+
+def clean_question(question: str):
+    """cleans up the question so that only the essential part is left
+    :param question: str - A question
+    :return: str - the clean up question"""
+    question = question.removeprefix("What is").removesuffix("?").strip()
+    for plain_english, operator in operator_dict.items():
+        question = question.replace(plain_english,operator)
+    return question
+
+
+def is_number(part: str):
+    """Is the number an integer
+    :param string_part: str - input string
+    :return: bool - is input an integer"""
+    return part.lstrip("-").isdigit()
+
+
+def validate_question(parts: list[str]):
+    """Validates the question
+    :param parts: list [str] - the question broken down into parts"""
     if not parts:
         raise ValueError("syntax error")
     
-    operator = "+"
+    for index, part in enumerate(parts):
+        if not(is_number(part) or part in operators):
+            raise ValueError("unknown operation")
+        
+        # ^ == xor. not(a xor b) => false+false == true, true+true == true, otherwise false
+        # The index and is_number must match.
+        if not (index % 2 ^ is_number(part)):
+            raise ValueError("syntax error")
+    
+    if len(parts) % 2 != 1:
+        raise ValueError("syntax error")
+
+
+def perform_calculations(parts: list[str]):
+    """Performes the calculates to calculate the answer"""
+    operator = "__add__"
     value = 0
     for index, part in enumerate(parts):
-        if not(is_number(part) or part in [ "+", "-", "*", "/"]):
-            # You have supplied neither a known operation or a number
-            raise ValueError("unknown operation")
-
-        if index % 2: # Every other part of the question must be an integer and the other must be an operator
-            if is_number(part):
-                # you have supplied a number where an operator should have been
-                raise ValueError("syntax error")
+        if index % 2:
             operator = part
         else:
-            if not is_number(part):
-                # you have supplied an operator where a number should have been
-                raise ValueError("syntax error")
-            value = perform_operation(value, int(part), operator)
-            operator = ""
-            
-    if operator: # question finished on an operator.
-        raise ValueError("syntax error")
+            value = value.__getattribute__(operator)(int(part))
     return value
-
-
-def is_number(string_part: str):
-    """Is the number an integer
-    :param string_part: str - input string
-    :return: bool - is input an integer """
-    return string_part.isdigit() or string_part[0] == "-" and len(string_part)>1 and string_part[1:].isdigit
-
-
-def perform_operation(value_1: float, value_2: int, operator: str):
-    """Perform the operation between value_1 and value_2
-    :param value_1: float - the value on the left side of the operation
-    :param value_2: int - the value on the right side of the operation
-    :param operation: bool - the operation to be performed"""
-    if operator == "+":
-        return value_1 + value_2
-    if operator == "-":
-        return value_1 - value_2
-    if operator == "/":
-        return value_1 / value_2
-    # operator must be *
-    return value_1 * value_2

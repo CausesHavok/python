@@ -2,7 +2,7 @@
 
 Welcome to House on Exercism's Python Track.
 If you need help running the tests or submitting your code, check out `HELP.md`.
-
+ 
 ## Instructions
 
 Recite the nursery rhyme 'This is the House that Jack Built'.
